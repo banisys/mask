@@ -1,13 +1,11 @@
 <template>
     <div>
         <ul style="margin-bottom:8px;margin-top:8px">
-
             <li v-for="item in cat.children_recursive"
                 style="margin-right:15px;text-align: right;font-size:14px;margin-bottom: 10px;">
                 <i class="fas fa-chevron-left" style="margin-left: 3px;font-size: 12px;color: #afafaf;"></i>
                 <input v-on:keydown.enter.prevent="redirectFilter($event,item.id)" :value="item.name"
                        style="border: unset;background-color: #f4f6f9;">
-
                 <categories-list :cat="item"></categories-list>
             </li>
         </ul>
@@ -19,9 +17,6 @@
 
     export default {
         props: ['cat'],
-        data() {
-            return {}
-        },
         methods: {
             redirectFilter(e, id) {
                 if (e.target.value == '') {

@@ -29,6 +29,7 @@ Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->name('admin.')-
     Route::post('/category/edit', 'CategoryController@edit');
     Route::get('/category/search/brand/{brand}', 'CategoryController@searchBrand');
     Route::get('/category/fetch/search/cats', 'CategoryController@fetchSearchCat');
-
+    Route::get('/category/fetch/cat/root', 'CategoryController@fetchRootCat2');
+    Route::get('/category/fetch/cat/child/select/{id}', 'CategoryController@fetchRootChildSelect');
 
 });
