@@ -36,7 +36,7 @@
     </style>
 </head>
 <body class="hold-transition sidebar-mini">
-<div class="wrapper">
+<div class="wrapper" id="app-admin">
     @include('layouts.admin.aside')
     <div class="content-wrapper">
         <div class="content-header" style="padding: 0">

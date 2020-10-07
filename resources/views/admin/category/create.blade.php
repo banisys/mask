@@ -1,10 +1,6 @@
 @extends('layouts.admin.admin')
 @section('content')
-
-<div id="app-admin">
     <categories-main></categories-main>
-</div>
-
 @endsection
 
 @section('script')
@@ -15,13 +11,6 @@
 @endsection
 
 @section('style')
-    <style>
-
-    </style>
-
-    <style>
-
-    </style>
     <style>
         .modal-mask {
             position: fixed !important;
@@ -44,12 +33,14 @@
             font-size: 1.1rem;
         }
 
-        label{
+        label {
             font-weight: unset !important;
         }
+
         button:focus {
             outline: rgba(122, 186, 255, 0.68) solid 2px !important;
         }
+
         body {
             height: 100vh !important;
         }

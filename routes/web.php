@@ -16,6 +16,11 @@ Route::namespace('App\Http\Controllers\Auth')->group(function () {
 Route::get('/logout', function () {
     Auth::logout();
 });
+Route::get('/admin/logout', function () {
+    auth('admin')->logout();
+});
+
+Route::get('/get/guard', 'App\Http\Controllers\Controller@get_guard');
 
 
 

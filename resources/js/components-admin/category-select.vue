@@ -1,40 +1,40 @@
 <template>
-<div>
-    <button @click="clickCatBtn" id="btn-cat">
-        {{ form.name }}
-        <i class="right fa fa-angle-down" id="angle-down"></i>
-    </button>
-    <div v-if="flag" id="sss">
-        <ul v-if="flag1">
-            <li style="color: black;font-weight: bold;background-color: #f1f1f1;padding-right: 6px;border-radius: 6px"
-                @click="fixRoot()">
-                ریشه
-            </li>
-            <li style="line-height: 35px;" @click="fetchChild(root.id,root.name)"
-                v-for="(root,index) in roots">
-                {{ root.name }}
-                <i id="angle-left" class="right fa fa-angle-left"></i>
-            </li>
-        </ul>
-        <ul v-if="flag2">
-            <li style="color: #a0a0a0" @click="back(holder.parentName)">
-                <i class="right fa fa-angle-right"
-                   style="float: right;margin:11px 0 0 5px;"></i>
-                {{ holder.parentName }}
-            </li>
-            <li style="color: black;font-weight: bold;background-color: #f1f1f1;padding-right: 6px;border-radius: 6px"
-                @click="fixCat()">{{ holder.selfName }}
-            </li>
-            <li v-for="(child,index) in childs"
-                @click="fetchChild(child.id,child.name)"
-                style="margin-right: 10px;">
-                {{ child.name }}
-                <i id="angle-left" v-if="child.children_recursive.length"
-                   class="right fa fa-angle-left"></i>
-            </li>
-        </ul>
+    <div>
+        <button @click="clickCatBtn" id="btn-cat">
+            {{ form.name }}
+            <i class="right fa fa-angle-down" id="angle-down"></i>
+        </button>
+        <div v-if="flag" id="sss">
+            <ul v-if="flag1">
+                <li style="color: black;font-weight: bold;background-color: #f1f1f1;padding-right: 6px;border-radius: 6px"
+                    @click="fixRoot()">
+                    ریشه
+                </li>
+                <li style="line-height: 35px;" @click="fetchChild(root.id,root.name)"
+                    v-for="(root,index) in roots">
+                    {{ root.name }}
+                    <i id="angle-left" class="right fa fa-angle-left"></i>
+                </li>
+            </ul>
+            <ul v-if="flag2">
+                <li style="color: #a0a0a0" @click="back(holder.parentName)">
+                    <i class="right fa fa-angle-right"
+                       style="float: right;margin:11px 0 0 5px;"></i>
+                    {{ holder.parentName }}
+                </li>
+                <li style="color: black;font-weight: bold;background-color: #f1f1f1;padding-right: 6px;border-radius: 6px"
+                    @click="fixCat()">{{ holder.selfName }}
+                </li>
+                <li v-for="(child,index) in childs"
+                    @click="fetchChild(child.id,child.name)"
+                    style="margin-right: 10px;">
+                    {{ child.name }}
+                    <i id="angle-left" v-if="child.children_recursive.length"
+                       class="right fa fa-angle-left"></i>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
 </template>
 
 <script>
@@ -43,12 +43,9 @@
             return {
                 form: {
                     name: 'انتخاب کنید...',
-                    title: '',
-                    description: '',
-                    image: null,
-                    type: '',
-                    brands: [],
                 },
+                categories: [],
+                output: '',
                 holder: {
                     selfName: 'ریشه',
                     selfId: '',
@@ -56,18 +53,49 @@
                     parentId: '',
                     grandName: 'ریشه',
                     grandId: '',
-                    flag: false,
-                    roots: [],
-                    childs: [],
                 },
                 flag: false,
                 flag1: true,
                 flag2: false,
+                roots: [],
+                childs: [],
+                search: {
+                    name: '',
+                },
+                categories2: [],
+                parents: '',
+                parentname: [],
+                parpar: [],
+                data_results: [],
                 cats: [],
                 catHolder: '',
             }
         },
         methods: {
+            fetchCategories() {
+                let data = this;
+                axios.get('/admin/category/fetch')
+                    .then(res => {
+                        data.categories = res.data;
+                    });
+            },
+            clickCatBtn() {
+                if (this.flag === false) {
+                    this.flag = true;
+                } else if (this.flag === true) {
+                    this.flag = false
+                }
+            },
+            fetchRootCat(type) {
+                let data = this;
+                axios.get(`/admin/category/fetch/cat/root/${type}`).then(res => {
+                    data.roots = res.data;
+                });
+                this.holder.parentName = 'ریشه';
+                this.holder.parentId = '';
+                this.holder.grandName = 'ریشه';
+                this.holder.grandId = '';
+            },
             fetchChild(id, name) {
                 let data = this;
                 let type = 'محصول';
@@ -86,10 +114,6 @@
                     data.flag2 = true;
                 });
             },
-            fixRoot() {
-                this.form.name = 'ریشه';
-                this.flag = false;
-            },
             back(parent) {
                 let data = this;
                 if (parent === 'ریشه') {
@@ -101,11 +125,11 @@
                     this.holder.parentId = '';
                     this.holder.grandName = '';
                     this.holder.grandId = '';
-                    axios.get('/admin/mega/fetch/cat/root').then(res => {
+                    axios.get('/admin/category/fetch/cat/root').then(res => {
                         data.roots = res.data;
                     });
                 } else {
-                    axios.get(`/admin/mega/fetch/cat/child/${this.holder.parentId}`).then(res => {
+                    axios.get(`/admin/category/fetch/cat/child/select/${this.holder.parentId}`).then(res => {
                         data.childs = res.data;
                         data.holder.selfName = data.holder.parentName;
                         data.holder.selfId = data.holder.parentId;
@@ -117,34 +141,27 @@
             fixCat() {
                 this.form.name = this.holder.selfName;
                 this.flag = false;
+                this.$emit('fixCat', this.holder.selfName)
             },
-            fetchRootCat(type) {
-                let _this = this;
-                axios.get(`/admin/category/fetch/cat/root/${type}`).then(res => {
-                    _this.roots = res.data;
-                });
-                this.holder.parentName = 'ریشه';
-                this.holder.parentId = '';
-                this.holder.grandName = 'ریشه';
-                this.holder.grandId = '';
+            fixRoot() {
+                this.form.name = 'ریشه'
+                this.flag = false
+                this.$emit('fixCat', 'ریشه')
             },
-            clickCatBtn() {
-                if (this.flag === false) {
-                    this.flag = true;
-                } else if (this.flag === true) {
-                    this.flag = false
+            searchName() {
+                let data = this;
+                if (this.search.name.length > 0) {
+                    axios.get('/admin/category/search', {params: {name: this.search.name}}).then(response => {
+                        data.categories2 = response.data;
+                    });
+                }
+                if (this.search.name.length === 0) {
+                    this.fetchCategories2();
                 }
             },
-            fetchCats() {
-                let _this = this;
-                axios.get('/admin/category/fetch/search/cats').then(function (res) {
-                    _this.cats = res.data
-                })
-            },
         },
-        mounted() {
-            this.fetchRootCat('محصول')
-            this.fetchCats()
+        mounted: function () {
+            this.fetchRootCat('محصول');
         },
         updated: function () {
             if (this.holder.parentName === this.holder.selfName) {

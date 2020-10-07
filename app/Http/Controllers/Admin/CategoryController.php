@@ -100,14 +100,19 @@ class CategoryController extends Controller
     {
         $xx = Category::whereNotNull('parent')->where('type', 'محصول')->get('parent');
 
+        Log::info('$xx');
+        Log::info($xx);
+
         $y = array();
         foreach ($xx as $x) {
             array_push($y, $x->parent);
         }
         $parent = array_unique($y);
 
-        $childs = Category::whereNotIn('id', $parent)->where('type', 'محصول')->get();
 
+        $childs = Category::whereNotIn('id', $parent)->where('type', 'محصول')->get();
+        Log::info('$childs');
+        Log::info($childs);
         $flag = false;
         foreach ($childs as $child) {
             if ($child->id == $id) {
@@ -118,6 +123,9 @@ class CategoryController extends Controller
         $brandCat = DB::table('brand_category')->where('cat_id', $id)->first();
         $product = Product::where('cat_id', $id)->first();
 
+
+
+
         if (isset($brandCat->cat_id) || isset($product->id)) {
             $flag = false;
         }
@@ -127,6 +135,9 @@ class CategoryController extends Controller
         }
 
         $category = Category::where('id', $id)->first();
+        Log::info('$category');
+        Log::info($category);
+
 
         $category->brands()->detach();
         if (isset($category->image)) {
@@ -568,6 +579,20 @@ class CategoryController extends Controller
         $categories = Category::with('childrenRecursive')->where('type', 'محصول')->whereNull('parent')->get();
 
         return response()->json($categories);
+    }
+
+    public function fetchRootCat2()
+    {
+        $roots = Category::where('parent', null)->get();
+
+        return response()->json($roots);
+    }
+
+    public function fetchRootChildSelect($id)
+    {
+        $childs = Category::where('parent', $id)->with('childrenRecursive')->get();
+
+        return response()->json($childs);
     }
 
 }
