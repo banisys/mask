@@ -8,6 +8,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
+
                                 <label>دسته والد :</label>
                                 <br>
                                 <category-select @fixCat="form.name = $event"></category-select>

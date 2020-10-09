@@ -165,10 +165,10 @@
         },
         updated: function () {
             if (this.holder.parentName === this.holder.selfName) {
-                this.holder.parentName = 'ریشه'
-                this.holder.parentId = ''
-                this.holder.grandName = 'ریشه'
-                this.holder.grandId = ''
+                this.holder.parentName = 'ریشه';
+                this.holder.parentId = '';
+                this.holder.grandName = 'ریشه';
+                this.holder.grandId = '';
             }
         }
     }
