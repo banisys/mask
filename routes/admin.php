@@ -32,4 +32,44 @@ Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->name('admin.')-
     Route::get('/category/fetch/cat/root', 'CategoryController@fetchRootCat2');
     Route::get('/category/fetch/cat/child/select/{id}', 'CategoryController@fetchRootChildSelect');
 
+//  ==================================== Brand ====================================
+    Route::get('/brand/create', 'BrandController@create');
+    Route::post('/brand/store', 'BrandController@store');
+    Route::get('/brand/fetch', 'BrandController@fetch');
+    Route::get('/brand/fetch/all', 'BrandController@fetchAll');
+    Route::get('/brand/fetch/{cat}', 'BrandController@fetchBrandCat');
+    Route::get('/brand/search', 'BrandController@search');
+    Route::get('/brand/image/{id}', 'BrandController@image');
+    Route::get('/brand/description/{id}', 'BrandController@description');
+    Route::get('/brand/delete/{id}', 'BrandController@delete');
+    Route::post('/brand/edit/cat', 'BrandController@editCat');
+    Route::get('/brand/fetch/cat/child/{id}', 'BrandController@fetchRootChild');
+    Route::get('/brand/fetch/cat/root', 'BrandController@fetchRootCat');
+    Route::get('/brand/cat', 'BrandController@fechCat');
+
+//  ==================================== Product ====================================
+    Route::get('/product/create', 'ProductController@create');
+    Route::get('/product/index', 'ProductController@index');
+    Route::get('/product/edit/{id}', 'ProductController@edit');
+    Route::get('/product/effect/price/{id}', 'ProductController@fetchEffectPriceId');
+    Route::get('/product/{id}', 'ProductController@fetchProduct');
+    Route::get('/product/catspec/{id}', 'ProductController@fechCatspec');
+    Route::post('/product/store', 'ProductController@store');
+    Route::post('/product/update/{id}', 'ProductController@update');
+    Route::get('/product/aaa/fetch', 'ProductController@fetch');
+    Route::get('/product/fetch/value/{pro}', 'ProductController@fetchValue');
+    Route::get('/product/fetch/effect/values/{id}', 'ProductController@fetchEffectVal');
+    Route::get('/product/fetch/colors/{pro}', 'ProductController@fetchColors');
+    Route::get('/product/fetch/gallery/{pro}', 'ProductController@fetchGallery');
+    Route::get('/product/delete/gallery/{id}', 'ProductController@deleteGallery');
+    Route::get('/product/delete/color/image/{id}', 'ProductController@deleteColorImage');
+    Route::get('/product/delete/{id}', 'ProductController@delete');
+    Route::get('/product/a/search', 'ProductController@search');
+    Route::get('/product/fetch/count', 'ProductController@proCount');
+    Route::get('/product/effect/price/{cat}/{brand}', 'ProductController@fetchEffectPrice');
+    Route::get('/product/color/image/{id}', 'ProductController@colorImageShow');
+    Route::get('/product/fetch/cat/id/{name}', 'ProductController@getCatId');
+    Route::get('/product/fetch/brands/{product_id}', 'ProductController@fetchBrands');
+    Route::post('/product/edit/price', 'ProductController@editPrice');
+
 });

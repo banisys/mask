@@ -38,7 +38,7 @@
 <body class="hold-transition sidebar-mini">
 <div class="wrapper" id="app-admin">
     @include('layouts.admin.aside')
-    <div class="content-wrapper">
+    <div class="content-wrapper" style="height: 100vh">
         <div class="content-header" style="padding: 0">
             <div class="container-fluid" style="padding: 0">
                 <div class="row mb-2">

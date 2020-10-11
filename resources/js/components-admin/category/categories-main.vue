@@ -5,10 +5,8 @@
                 <div class="container">
                     <span style="position: absolute;margin-right:10px;top: -14px;background-color: #f4f6f9;color: #9f9f9f;">افزودن دسته بندی</span>
                     <div style="border: 1px #dedede solid;padding:35px 5px 15px 5px;border-radius: 10px" class="row">
-
                         <div class="col-md-4">
                             <div class="form-group">
-
                                 <label>دسته والد :</label>
                                 <br>
                                 <category-select @fixCat="form.name = $event"></category-select>
